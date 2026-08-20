@@ -57,3 +57,31 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+---
+
+## Python Model Service Integration
+
+This repository includes a small Python model service to run the YOLO model and return annotated images/videos.
+
+Service location:
+- `SisflovPlatformAI/backend/python_model_service`
+
+Laravel proxy endpoints (added):
+- POST `/api/model/predict-image`  -> forward image upload to Python service and return annotated image
+- POST `/api/model/predict-video`  -> forward video upload to Python service and return processed video
+
+Environment/usage:
+- Ensure the Python service is running (see `SisflovPlatformAI/backend/python_model_service/README.md`).
+- You can configure the Python service base URL via `.env`:
+
+    PYTHON_MODEL_SERVICE=http://127.0.0.1:8001
+
+- From the frontend (Flutter/web) upload a multipart form field named `file` to the Laravel endpoints above. The Laravel proxy will forward the file to the Python service and return the response.
+
+Security note:
+- These proxy endpoints are a convenience for development. In production consider:
+  - Validating/sanitizing uploads and enforcing auth
+  - Letting the frontend upload directly to the model service behind auth, or using signed URLs / storage buckets for large uploads
+  - Running the model service behind a secure internal network or service mesh
+
