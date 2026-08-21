@@ -22,3 +22,11 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+
+# Entornos virtuales de Python y archivos pesados
+mi_entorno/
+venv/
+python_model_service/venv/
+*.pt
+*.onnx
